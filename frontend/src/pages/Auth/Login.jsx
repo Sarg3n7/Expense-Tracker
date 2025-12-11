@@ -63,7 +63,6 @@ const Login = () => {
             <Link className="font-medium text-primary underline" to="/signUp">
               SignUp
             </Link>
-
           </p>
         </form>
 
