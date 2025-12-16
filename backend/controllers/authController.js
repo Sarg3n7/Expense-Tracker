@@ -8,9 +8,8 @@ const generateToken = (id) => {
 
 //Register User
 const registerUser = async(req, res) => {
-    console.log("req.body:", req.body);
     
-    const {fullName, email, password, profileImageUrl} = req.body;
+    const {fullName, email, password, profileImageUrl} = req.body || {};
 
     //validation: check for missing fields
     if(!fullName || !email || !password){
