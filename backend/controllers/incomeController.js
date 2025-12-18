@@ -1,4 +1,4 @@
-import {User} from '../models/User.js'
+import xlsx from 'xlsx'
 import {Income} from '../models/Income.js'
 
 //Add Income Source
@@ -52,7 +52,25 @@ const deleteIncome = async(req, res)=>{
 
 //Download Excel
 const downloadIncomeExcel = async(req, res) => {
+    const userId = req.user.id;
+    try {
+        const income = await Income.find({userId}).sort({date: -1})
 
+        //Prepare data for Excel
+        const data = income.map((item) => ({
+            Source: item.source,
+            Amount: item.amount,
+            Date: item.date,
+        }))
+
+        const wb = xlsx.utils.book_new()
+        const ws = xlsx.utils.json_to_sheet(data)
+        xlsx.utils.book_append_sheet(wb,ws, "Income")
+        xlsx.writeFile(wb, 'income_details.xlsx')
+        res.download('income_details.xlsx')
+    } catch (error){
+        res.status(500).json({ message: "Server error on downloading income excel"})
+    }
 }
 
 
