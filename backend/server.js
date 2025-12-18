@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import incomeRoutes from './routes/incomeRoutes.js'
 import path from 'path'
 import { fileURLToPath } from 'url';
 
@@ -29,6 +30,7 @@ app.use(express.json())
 connectDB();
 
 app.use("/api/v1/auth", authRoutes)
+app.use("/api/v1/income", incomeRoutes)
 
 //Serve uploads folder
 const __filename = fileURLToPath(import.meta.url);
