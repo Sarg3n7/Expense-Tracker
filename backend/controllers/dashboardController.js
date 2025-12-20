@@ -25,7 +25,7 @@ const getDashboardData = async (req, res) => {
 
         //Get income transactions in the last 60 days
         const last60DaysIncomeTransactions = await Income.find({
-            userId: userObjectId,
+            userId,
             date: { $gte: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000 )}
         }).sort({date: -1})
 
@@ -37,7 +37,7 @@ const getDashboardData = async (req, res) => {
 
         //Get expense transactions in last 30 days
         const last30DaysExpenseTransactions = await Expense.find({
-            userId: userObjectId,
+            userId,
             date: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
         }).sort({date:-1})
 
