@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
 import { Link, useNavigate } from 'react-router-dom'
 import Input from '../../components/Inputs/Input'
 import { validateEmail } from '../../utils/helper.js'
 import axiosInstance from '../../utils/axiosInstance.js'
 import { API_PATHS } from '../../utils/apiPaths.js'
+import { UserContext } from '../../context/userContext.jsx'
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(null)
+
+  const{ updateUser } = useContext(UserContext)
 
   const navigate = useNavigate();
 
@@ -40,6 +43,7 @@ const Login = () => {
 
       if(token){
         localStorage.setItem("token", token)
+        updateUser(user)
         navigate('/dashboard')
       }
 
