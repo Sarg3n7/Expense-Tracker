@@ -1,6 +1,6 @@
 import React , { useContext, useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Input from '../../components/Inputs/Input'
 import { validateEmail } from '../../utils/helper.js'
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector'
