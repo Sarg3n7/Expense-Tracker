@@ -18,3 +18,15 @@ export const getInitials = (name) => {
     return initals.toUpperCase()
 
 }
+
+
+export const addThousandsSeparator = (num) =>{
+    if(num == null || isNaN(num)) return "";
+
+    const[interPart, fractionPart] = num.toString().split(".");
+    const formattedInteger = interPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return fractionPart
+    ? `${formattedInteger}.${fractionPart}`
+    : formattedInteger;
+}
