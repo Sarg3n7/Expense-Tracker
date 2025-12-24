@@ -12,6 +12,7 @@ import {IoMdCard} from 'react-icons/io'
 import RecentTransactions from '../../components/Dashboard/RecentTransactions.jsx';
 import FinanceOverview from '../../components/Dashboard/FinanceOverview.jsx';
 import ExpenseTransactions from '../../components/Dashboard/ExpenseTransactions.jsx';
+import Last30DaysExpenses from '../../components/Dashboard/last30DaysExpenses.jsx';
 
 
 
@@ -85,7 +86,7 @@ const Home = () => {
             onSeeMore={() => navigate('/expense')}
           />
 
-          <last30DaysExpenses
+          <Last30DaysExpenses
             data={dashboardData?.last30DaysExpenses?.transactions || []}
           />
         </div>
