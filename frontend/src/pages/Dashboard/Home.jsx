@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout  from '../../components/layouts/DashboardLayout'
-import { useUserAuth } from '../../hooks/useUserAuth';
+// import { useUserAuth } from '../../hooks/useUserAuth';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance.js';
 import { API_PATHS } from '../../utils/apiPaths.js';
@@ -19,7 +19,7 @@ import RecentIncome from '../../components/Dashboard/RecentIncome.jsx';
 
 
 const Home = () => {
-  useUserAuth();
+  // useUserAuth();
   const navigate = useNavigate()
 
   const [dashboardData, setDashboardData] = useState(null)
