@@ -36,6 +36,14 @@ app.use("/api/v1/income", incomeRoutes)
 app.use("/api/v1/expense", expenseRoutes)
 app.use("/api/v1/dashboard", dashboardRoutes)
 
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "OK", message: "Server is running" });
+});
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found" });
+});
+
+
 //Serve uploads folder
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
