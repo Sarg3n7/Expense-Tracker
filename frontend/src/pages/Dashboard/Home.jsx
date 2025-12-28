@@ -12,7 +12,7 @@ import {IoMdCard} from 'react-icons/io'
 import RecentTransactions from '../../components/Dashboard/RecentTransactions.jsx';
 import FinanceOverview from '../../components/Dashboard/FinanceOverview.jsx';
 import ExpenseTransactions from '../../components/Dashboard/ExpenseTransactions.jsx';
-import Last30DaysExpenses from '../../components/Dashboard/last30DaysExpenses.jsx';
+import Last30DaysExpenses from '../../components/Dashboard/Last30DaysExpenses.jsx';
 import RecentIncomeWithChart from '../../components/Dashboard/RecentIncomeWithChart.jsx';
 import RecentIncome from '../../components/Dashboard/RecentIncome.jsx';
 
