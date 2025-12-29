@@ -10,9 +10,18 @@ import path from 'path'
 import { fileURLToPath } from 'url';
 
 
+// dotenv.config({
+//     path: './.env'
+// })
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config({
-    path: './.env'
-})
+  path: path.join(__dirname, '.env'),
+});
+
+
 
 const app = express();
 
@@ -39,18 +48,14 @@ app.use("/api/v1/dashboard", dashboardRoutes)
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "OK", message: "Server is running" });
 });
+
 app.use((req, res) => {
     res.status(404).json({ message: "Route not found" });
 });
 
 
-//Serve uploads folder
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// app.use('/uploads',express.static(path.join(__dirname, 'uploads')))
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

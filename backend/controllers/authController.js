@@ -31,7 +31,7 @@ const registerUser = async(req, res) => {
         //Upload image to cloudinary if provided
         if(req.file){
             const uploadResult = await cloudinary.uploader.upload(
-                `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
+                `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
                 {
                     folder:"expense-tracker/profile-images",
                     resource_type: 'image',
@@ -40,6 +40,10 @@ const registerUser = async(req, res) => {
 
             profileImageUrl = uploadResult.secure_url;
         }
+
+        console.log("FILE RECEIVED:", req.file);
+        console.log("CLOUDINARY URL:", profileImageUrl);
+
 
         //creating the user
         const user = await User.create({
@@ -55,9 +59,14 @@ const registerUser = async(req, res) => {
             token: generateToken(user._id)
         })
     } catch (err) {
-        res
-        .status(500)
-        .json({message: "Error registering user", error: err.message})
+        // res
+        // .status(500)
+        // .json({message: "Error registering user", error: err.message})
+        console.error("REGISTER USER ERROR:", err)
+        res.status(500).json({
+            message: "Error registering user",
+            error: err.message,
+        })
     }
 }
 

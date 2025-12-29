@@ -1,132 +1,147 @@
-import React , { useContext, useState } from 'react'
-import AuthLayout from '../../components/layouts/AuthLayout'
-import { Link, useNavigate } from 'react-router-dom'
-import Input from '../../components/Inputs/Input'
-import { validateEmail } from '../../utils/helper.js'
-import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector'
-import axiosInstance from '../../utils/axiosInstance.js'
-import { API_PATHS } from '../../utils/apiPaths.js'
-import { UserContext } from '../../context/UserContext'
+import React, { useContext, useState } from "react";
+import AuthLayout from "../../components/layouts/AuthLayout";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../components/Inputs/Input";
+import { validateEmail } from "../../utils/helper.js";
+import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
+// import axiosInstance from '../../utils/axiosInstance.js'
+import { API_PATHS } from "../../utils/apiPaths.js";
+import { UserContext } from "../../context/UserContext";
+import axios from "axios";
 // import uploadImage from '../../utils/uploadImage.js'
 
 const SignUp = () => {
-  const [profilePic, setProfilePic] = useState(null)
-  const [fullName, setFullName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
+  const [profilePic, setProfilePic] = useState(null);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
-
-  const {updateUser} = useContext(UserContext)
-  const navigate = useNavigate()
-
+  const { updateUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   //Handle sign up form submit
   const handleSignUp = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    let profileImageUrl = ""
+    let profileImageUrl = "";
 
-    if(!fullName){
-      setError("Please enter your name")
-      return
+    if (!fullName) {
+      setError("Please enter your name");
+      return;
     }
-    if(!validateEmail(email)){
-      setError("Please enter a valid email address")
-      return
-    }
-
-    if(!password){
-      setError("Please enter the password")
-      return
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
     }
 
-    setError("")
+    if (!password) {
+      setError("Please enter the password");
+      return;
+    }
+
+    setError("");
 
     //SignUp API Call
     try {
-
       //Upload image if present
       // if(profilePic){
       //   const imgUploadRes = await uploadImage(profilePic)
       //   profileImageUrl = imgUploadRes.imageUrl || ""
       // }
       const formData = new FormData();
-      formData.append('fullName', fullName)
-      formData.append('email', email)
-      formData.append('password', password)
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("password", password);
 
       if (profilePic) {
-        formData.append("profileImage", profilePic)
+        formData.append("profileImage", profilePic);
       }
 
       //Send form data directly
-      const response = await axiosInstance.post(
-        API_PATHS.AUTH.REGISTER,
-        // {
-        //   fullName,
-        //   email,
-        //   password,
-        //   profileImageUrl,
-        // }
+      // const response = await axiosInstance.post(
+      //   API_PATHS.AUTH.REGISTER,
+      //   // {
+      //   //   fullName,
+      //   //   email,
+      //   //   password,
+      //   //   profileImageUrl,
+      //   // }
 
-        formData
-      )
+      //   formData
+      // )
+      console.log(
+        "REGISTER URL:",
+        `${import.meta.env.VITE_API_BASE_URL}${API_PATHS.AUTH.REGISTER}`
+      );
 
-      const { token, user } = response.data
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}${API_PATHS.AUTH.REGISTER}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      if(token){
-        localStorage.setItem("token", token)
-        navigate('/dashboard')
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        navigate("/dashboard");
       }
     } catch (error) {
-      if(error.response && error.response.data.message){
-        setError(error.response.data.message)
-      }else{
-        setError("Something went wrong. Please try again.")
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
       }
     }
-  }
+  };
   return (
     <AuthLayout>
-      <div className='lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center'>
-        <h3 className='text-xl font-semibold text-black'>Create an Account</h3>
-        <p className='text-xs text-slate-700 mt-[5px] mb-6'>Join us today by entering your deatils below.</p>
+      <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center">
+        <h3 className="text-xl font-semibold text-black">Create an Account</h3>
+        <p className="text-xs text-slate-700 mt-[5px] mb-6">
+          Join us today by entering your deatils below.
+        </p>
         <form onSubmit={handleSignUp}>
+          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
-          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic}/>
-
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               value={fullName}
-              onChange={({target}) => setFullName(target.value)}
+              onChange={({ target }) => setFullName(target.value)}
               label="Full Name"
               placeholder="John"
               type="text"
             />
-            <Input 
-              value={email} 
-              onChange ={({target}) => setEmail(target.value)}
-              label ="Email Address"
-              placeholder = "john@example.com"
+            <Input
+              value={email}
+              onChange={({ target }) => setEmail(target.value)}
+              label="Email Address"
+              placeholder="john@example.com"
               type="text"
             />
 
-            <div className='col-span-2'>
-              <Input 
-                value={password} 
-                onChange ={({target}) => setPassword(target.value)}
-                label ="Password"
-                placeholder = "Minimum 8 Characters"
+            <div className="col-span-2">
+              <Input
+                value={password}
+                onChange={({ target }) => setPassword(target.value)}
+                label="Password"
+                placeholder="Minimum 8 Characters"
                 type="password"
               />
             </div>
           </div>
 
-          {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
-          <button type='submit' className='btn-primary'>SIGN UP</button>
+          {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
+          <button type="submit" className="btn-primary">
+            SIGN UP
+          </button>
 
-          <p className='text-[13px] text-slate-800 mt-3'>
+          <p className="text-[13px] text-slate-800 mt-3">
             Already have an account?{""}
             <Link className="font-medium text-primary underline" to="/login">
               Login
@@ -135,7 +150,7 @@ const SignUp = () => {
         </form>
       </div>
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
