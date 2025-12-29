@@ -1,5 +1,8 @@
 import {User} from '../models/User.js'
 import jwt from 'jsonwebtoken';
+import cloudinary from "../config/cloudinary.js";
+
+
 
 //Generate JWT token
 const generateToken = (id) => {
@@ -9,7 +12,7 @@ const generateToken = (id) => {
 //Register User
 const registerUser = async(req, res) => {
     
-    const {fullName, email, password, profileImageUrl} = req.body || {};
+    const {fullName, email, password} = req.body || {};
 
     //validation: check for missing fields
     if(!fullName || !email || !password){
@@ -21,6 +24,21 @@ const registerUser = async(req, res) => {
         const existingUser = await User.findOne({email})
         if(existingUser){
             return res.status(400).json({message: "Email already in use"})
+        }
+
+        let profileImageUrl = null;
+
+        //Upload image to cloudinary if provided
+        if(req.file){
+            const uploadResult = await cloudinary.uploader.upload(
+                `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
+                {
+                    folder:"expense-tracker/profile-images",
+                    resource_type: 'image',
+                }
+            )
+
+            profileImageUrl = uploadResult.secure_url;
         }
 
         //creating the user

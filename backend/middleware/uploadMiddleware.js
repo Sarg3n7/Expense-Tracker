@@ -1,13 +1,18 @@
 import multer from 'multer';
 
-const storage = multer.diskStorage({
-    destination: (req, res, cb) => {
-        cb(null, 'uploads/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`)
-    }
-})
+//For saving files to local storage
+// const storage = multer.diskStorage({
+//     destination: (req, res, cb) => {
+//         cb(null, 'uploads/')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, `${Date.now()}-${file.originalname}`)
+//     }
+// })
+
+
+//For saving files to memory for cloud storage
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) =>{
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
@@ -18,6 +23,10 @@ const fileFilter = (req, file, cb) =>{
     }
 }
 
-const upload = multer({ storage, fileFilter })
+const upload = multer({ 
+    storage, 
+    fileFilter,
+    limits:{fileSize: 5 * 1024 * 1024} // 5MB limit
+ })
 
 export {upload}

@@ -7,7 +7,7 @@ import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector'
 import axiosInstance from '../../utils/axiosInstance.js'
 import { API_PATHS } from '../../utils/apiPaths.js'
 import { UserContext } from '../../context/UserContext'
-import uploadImage from '../../utils/uploadImage.js'
+// import uploadImage from '../../utils/uploadImage.js'
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null)
@@ -47,16 +47,31 @@ const SignUp = () => {
     try {
 
       //Upload image if present
-      if(profilePic){
-        const imgUploadRes = await uploadImage(profilePic)
-        profileImageUrl = imgUploadRes.imageUrl || ""
+      // if(profilePic){
+      //   const imgUploadRes = await uploadImage(profilePic)
+      //   profileImageUrl = imgUploadRes.imageUrl || ""
+      // }
+      const formData = new FormData();
+      formData.append('fullName', fullName)
+      formData.append('email', email)
+      formData.append('password', password)
+
+      if (profilePic) {
+        formData.append("profileImage", profilePic)
       }
-      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER,{
-        fullName,
-        email,
-        password,
-        profileImageUrl,
-      })
+
+      //Send form data directly
+      const response = await axiosInstance.post(
+        API_PATHS.AUTH.REGISTER,
+        // {
+        //   fullName,
+        //   email,
+        //   password,
+        //   profileImageUrl,
+        // }
+
+        formData
+      )
 
       const { token, user } = response.data
 
