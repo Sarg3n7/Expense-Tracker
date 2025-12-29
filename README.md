@@ -1,4 +1,4 @@
-# Expense Tracker (MERN Monorepo)
+# Expense Tracker
 
 A full‑stack **Expense Tracker application** built with the **MERN stack**, featuring secure authentication, income & expense management, analytics dashboards, charts, file uploads, and data export functionality.
 
