@@ -46,6 +46,7 @@ This repository follows a **monorepo architecture**, where the backend and front
 - **Express (ES Modules)**
 - **MongoDB + Mongoose**
 - **JWT Authentication**
+- **Cloudinary** (file uploads)
 - **Multer** (file uploads)
 - **bcrypt** (password hashing)
 - **xlsx** (Excel export)

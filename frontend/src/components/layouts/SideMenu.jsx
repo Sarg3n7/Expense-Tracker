@@ -30,7 +30,8 @@ const SideMenu = ({activeMenu}) => {
         width="w-20"
         height="h-20"
         style="text-xl"
-        />)}
+        />)
+      }
 
       <h5 className='text-gray-950 font-medium leading-6'>
         {user?.fullName || ""}
