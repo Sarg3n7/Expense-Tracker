@@ -101,6 +101,9 @@ Create a `.env` file in the backend folder:
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY= your_cloduinary_api_key
+CLOUDINARY_API_SECRET= your_cloudinary_api_secret
 ```
 
 ### Frontend
